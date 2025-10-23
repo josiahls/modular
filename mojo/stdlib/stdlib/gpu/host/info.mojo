@@ -996,6 +996,44 @@ alias RTX2060 = GPUInfo.from_family(
 
 
 # ===-----------------------------------------------------------------------===#
+# TU116
+# ===-----------------------------------------------------------------------===#
+
+
+fn _get_tu116_target() -> _TargetType:
+    """Creates an MLIR target configuration for NVIDIA TU116 GPU.
+
+    Graphics cards this includes:
+    - GTX 1660 Ti
+
+    Returns:
+        MLIR target configuration for RTX 2060.
+    """
+    return __mlir_attr[
+        `#kgen.target<triple = "nvptx64-nvidia-cuda", `,
+        `arch = "sm_75", `,
+        `features = "+ptx63,+sm_75", `,
+        `tune_cpu = "sm_75", `,
+        `data_layout = "e-p3:32:32-p4:32:32-p5:32:32-p6:32:32-p7:32:32-i64:64-i128:128-i256:256-v16:16-v32:32-n16:32:64",`,
+        `index_bit_width = 64,`,
+        `simd_bit_width = 128`,
+        `> : !kgen.target`,
+    ]
+
+
+alias GTX1660 = GPUInfo.from_family(
+    family=NvidiaTuringFamily,
+    name="GTX1660",
+    vendor=Vendor.NVIDIA_GPU,
+    api="cuda",
+    arch_name="turing",
+    compute=7.5,
+    version="sm_75",
+    sm_count=24,
+)
+
+
+# ===-----------------------------------------------------------------------===#
 # MI300X
 # ===-----------------------------------------------------------------------===#
 

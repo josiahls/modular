@@ -1007,14 +1007,14 @@ fn _get_tu116_target() -> _TargetType:
     - GTX 1660 Ti
 
     Returns:
-        MLIR target configuration for RTX 2060.
+        MLIR target configuration for GTX 1660 Ti.
     """
     return __mlir_attr[
         `#kgen.target<triple = "nvptx64-nvidia-cuda", `,
         `arch = "sm_75", `,
         `features = "+ptx63,+sm_75", `,
         `tune_cpu = "sm_75", `,
-        `data_layout = "e-p3:32:32-p4:32:32-p5:32:32-p6:32:32-p7:32:32-i64:64-i128:128-i256:256-v16:16-v32:32-n16:32:64",`,
+        `data_layout = "e-p:64:64:64-i1:8:8-i8:8:8-i16:16:16-i32:32:32-i64:64:64-f32:32:32-f64:64:64-v16:16:16-v32:32:32-v64:64:64-v128:128:128-n16:32:64",`,
         `index_bit_width = 64,`,
         `simd_bit_width = 128`,
         `> : !kgen.target`,
@@ -1453,6 +1453,8 @@ struct GPUInfo(Identifiable, Stringable, Writable):
             return _get_gtx970_target()
         if self.name == "RTX2060":
             return _get_rtx2060_target()
+        if self.name == "GTX1660":
+            return _get_tu116_target()
         if self.name == "NVIDIA GeForce RTX 3090":
             return _get_rtx3090_target()
         if self.name == "A100":
@@ -1748,6 +1750,7 @@ fn _get_info_from_target[target_arch0: StaticString]() -> GPUInfo:
             StaticString("60"),
             StaticString("61"),
             StaticString("75"),
+            StaticString("75_gtx"),
             StaticString("80"),
             StaticString("86"),
             StaticString("87"),
@@ -1796,6 +1799,8 @@ fn _get_info_from_target[target_arch0: StaticString]() -> GPUInfo:
         return materialize[GTX1080Ti]()
     elif target_arch == "75":
         return materialize[RTX2060]()
+    elif target_arch == "75_gtx":
+        return materialize[GTX1660]()
     elif target_arch == "80":
         return materialize[A100]()
     elif target_arch == "86":
